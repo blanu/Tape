@@ -14,6 +14,7 @@ public class StreamController
 {
     let connection: Connection
     let queue: DispatchQueue = DispatchQueue(label: "StreamController")
+    let id = UUID()
 
     init(connection: Connection, callback: @escaping Callback)
     {
@@ -110,5 +111,21 @@ public class StreamController
             case .unpauseType:
                 return Tape.unpause
         }
+    }
+}
+
+extension StreamController: Equatable
+{
+    public static func == (lhs: StreamController, rhs: StreamController) -> Bool
+    {
+        return lhs.id == rhs.id
+    }
+}
+
+extension StreamController: Hashable
+{
+    public func hash(into: inout Hasher)
+    {
+        into.combine(self.id)
     }
 }
